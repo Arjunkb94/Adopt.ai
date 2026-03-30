@@ -1,0 +1,2026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adopt.ai — GTM Strategy Tree</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f0e;
+    --surface: #141716;
+    --border: #232825;
+    --border-bright: #2e3530;
+    --text-primary: #e8ebe9;
+    --text-secondary: #8a9490;
+    --text-muted: #4a5450;
+    --accent-green: #4ade80;
+    --accent-green-dim: #1a3d28;
+    --accent-amber: #fbbf24;
+    --accent-amber-dim: #3d2e0a;
+    --accent-blue: #60a5fa;
+    --accent-blue-dim: #0f2340;
+    --accent-coral: #fb7185;
+    --accent-coral-dim: #3d1020;
+    --accent-teal: #2dd4bf;
+    --accent-teal-dim: #0d3330;
+    --accent-purple: #a78bfa;
+    --accent-purple-dim: #2a1f45;
+    --trunk: #2e3530;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Instrument Sans', sans-serif;
+    min-height: 100vh;
+    padding: 48px 32px 80px;
+  }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 56px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-left {}
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-green);
+    margin-bottom: 10px;
+  }
+  .title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 38px;
+    line-height: 1.1;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+  }
+  .title em {
+    font-style: italic;
+    color: var(--accent-green);
+  }
+  .header-meta {
+    text-align: right;
+    padding-top: 4px;
+  }
+  .header-meta p {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+    line-height: 1.8;
+  }
+
+  /* TREE LAYOUT */
+  .tree {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* ROOT NODE */
+  .root-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0;
+  }
+  .root-node {
+    background: var(--accent-green-dim);
+    border: 1px solid var(--accent-green);
+    border-radius: 6px;
+    padding: 14px 32px;
+    text-align: center;
+    position: relative;
+  }
+  .root-node .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-green);
+    margin-bottom: 4px;
+  }
+  .root-node .name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--text-primary);
+  }
+
+  /* VERTICAL CONNECTOR FROM ROOT */
+  .root-connector {
+    display: flex;
+    justify-content: center;
+    height: 32px;
+  }
+  .root-connector::after {
+    content: '';
+    width: 1px;
+    height: 100%;
+    background: var(--trunk);
+  }
+
+  /* HORIZONTAL SPINE */
+  .spine-row {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    height: 1px;
+    margin-bottom: 0;
+  }
+  .spine-line {
+    position: absolute;
+    top: 0;
+    height: 1px;
+    background: var(--trunk);
+    left: calc(100% / 14);
+    right: calc(100% / 14);
+  }
+
+  /* BRANCHES ROW */
+  .branches-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    margin-top: 0;
+  }
+
+  /* BRANCH */
+  .branch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  /* VERTICAL DROP FROM SPINE TO BRANCH HEAD */
+  .branch-drop {
+    width: 1px;
+    background: var(--trunk);
+    flex-shrink: 0;
+  }
+
+  /* BRANCH HEAD NODE */
+  .branch-head {
+    border-radius: 5px;
+    padding: 10px 12px;
+    width: 100%;
+    text-align: center;
+    border: 1px solid;
+    position: relative;
+    cursor: default;
+    transition: filter 0.2s;
+  }
+  .branch-head:hover { filter: brightness(1.1); }
+  a.branch-head { cursor: pointer; }
+  .branch-head .b-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    margin-bottom: 5px;
+    opacity: 0.7;
+  }
+  .branch-head .b-title {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  /* COLOR VARIANTS */
+  .br-green  { background: var(--accent-green-dim);  border-color: var(--accent-green);  color: var(--accent-green); }
+  .br-amber  { background: var(--accent-amber-dim);  border-color: var(--accent-amber);  color: var(--accent-amber); }
+  .br-blue   { background: var(--accent-blue-dim);   border-color: var(--accent-blue);   color: var(--accent-blue); }
+  .br-coral  { background: var(--accent-coral-dim);  border-color: var(--accent-coral);  color: var(--accent-coral); }
+  .br-teal   { background: var(--accent-teal-dim);   border-color: var(--accent-teal);   color: var(--accent-teal); }
+  .br-purple { background: var(--accent-purple-dim); border-color: var(--accent-purple); color: var(--accent-purple); }
+  .br-amber2 { background: #3d200a; border-color: #f97316; color: #f97316; }
+
+  /* LEAF NODES */
+  .leaf-connector {
+    width: 1px;
+    height: 14px;
+    background: var(--trunk);
+    flex-shrink: 0;
+  }
+  .leaves {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+  }
+  .leaf {
+    background: var(--surface);
+    border: 1px solid var(--border-bright);
+    border-radius: 4px;
+    padding: 8px 10px;
+    position: relative;
+    transition: border-color 0.2s, background 0.2s;
+    cursor: default;
+  }
+  .leaf:hover {
+    border-color: var(--border-bright);
+    background: #1a1e1b;
+  }
+  .leaf .leaf-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+    display: block;
+  }
+  .leaf .leaf-text {
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.45;
+    font-weight: 400;
+  }
+  .leaf .leaf-text strong {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  /* ACCENT LEFT BORDER ON LEAVES */
+  .leaf.accent-green  { border-left: 2px solid var(--accent-green); }
+  .leaf.accent-amber  { border-left: 2px solid var(--accent-amber); }
+  .leaf.accent-blue   { border-left: 2px solid var(--accent-blue); }
+  .leaf.accent-coral  { border-left: 2px solid var(--accent-coral); }
+  .leaf.accent-teal   { border-left: 2px solid var(--accent-teal); }
+  .leaf.accent-purple { border-left: 2px solid var(--accent-purple); }
+  .leaf.accent-orange { border-left: 2px solid #f97316; }
+
+  .tag-green  { color: var(--accent-green); }
+  .tag-amber  { color: var(--accent-amber); }
+  .tag-blue   { color: var(--accent-blue); }
+  .tag-coral  { color: var(--accent-coral); }
+  .tag-teal   { color: var(--accent-teal); }
+  .tag-purple { color: var(--accent-purple); }
+  .tag-orange { color: #f97316; }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+  }
+  .footer-tag {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-green);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ENTRY ANIMATION */
+  .branch {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.5s ease forwards;
+  }
+  .branch:nth-child(1) { animation-delay: 0.05s; }
+  .branch:nth-child(2) { animation-delay: 0.12s; }
+  .branch:nth-child(3) { animation-delay: 0.19s; }
+  .branch:nth-child(4) { animation-delay: 0.26s; }
+  .branch:nth-child(5) { animation-delay: 0.33s; }
+  .branch:nth-child(6) { animation-delay: 0.40s; }
+  .branch:nth-child(7) { animation-delay: 0.47s; }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .root-node {
+    opacity: 0;
+    animation: fadeUp 0.4s ease 0s forwards;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <p class="eyebrow">GTM Architecture · Adopt.ai</p>
+    <h1 class="title">Building the system<br>that <em>scales</em> the category</h1>
+  </div>
+  <div class="header-meta">
+    <p>STAGE — SEED → SERIES A</p>
+    <p>MOTION — ENTERPRISE B2B</p>
+    <p>HORIZON — 18 MONTHS</p>
+    <p>PREPARED BY — ARJUN BALASUBRAMANIAN</p>
+  </div>
+</div>
+
+<div class="tree">
+
+  <!-- ROOT -->
+  <div class="root-row">
+    <div class="root-node">
+      <div class="label">Core thesis</div>
+      <div class="name">Adopt.ai GTM Strategy</div>
+    </div>
+  </div>
+
+  <!-- CONNECTOR DOWN -->
+  <div class="root-connector"></div>
+
+  <!-- SPINE -->
+  <div class="spine-row">
+    <div class="spine-line"></div>
+  </div>
+
+  <!-- SEVEN BRANCHES -->
+  <div class="branches-row">
+
+    <!-- 01 ICP -->
+    <div class="branch">
+      <div class="branch-drop" style="height:24px"></div>
+      <a href="#fold-icp" class="branch-head br-green" style="text-decoration:none; display:block;">
+        <div class="b-number tag-green">01</div>
+        <div class="b-title">ICP &amp; Buyer</div>
+      </a>
+      <div class="leaf-connector"></div>
+      <div class="leaves">
+        <div class="leaf accent-green">
+          <span class="leaf-tag tag-green">Primary</span>
+          <div class="leaf-text"><strong>CIO / COO / Head of Automation</strong>, CTO in tech/SaaS context</div>
+        </div>
+        <div class="leaf accent-green">
+          <span class="leaf-tag tag-green">Signal</span>
+          <div class="leaf-text"><strong>Hyperscaler purchase</strong> or failed RPA / LLM pilot. Budget exists. Wall already hit.</div>
+        </div>
+        <div class="leaf accent-green">
+          <span class="leaf-tag tag-green">Qualifier</span>
+          <div class="leaf-text">Executive on the hook for an outcome. <strong>Automation mandate, not a side project</strong></div>
+        </div>
+        <div class="leaf accent-green">
+          <span class="leaf-tag tag-green">Vertical hypothesis</span>
+          <div class="leaf-text">To be checked</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 WEDGE & MOAT -->
+    <div class="branch">
+      <div class="branch-drop" style="height:24px"></div>
+      <a href="#fold-wedge" class="branch-head br-coral" style="text-decoration:none; display:block;">
+        <div class="b-number tag-coral">02</div>
+        <div class="b-title">Wedge &amp; Moat</div>
+      </a>
+      <div class="leaf-connector"></div>
+      <div class="leaves">
+        <div class="leaf accent-coral">
+          <span class="leaf-tag tag-coral">Wedge</span>
+          <div class="leaf-text"><strong>ZAPI</strong> collapses integration from months to days. Immediate ROI on land</div>
+        </div>
+        <div class="leaf accent-coral">
+          <span class="leaf-tag tag-coral">Moat</span>
+          <div class="leaf-text"><strong>Governance layer</strong> builds context graphs, decision traces, state awareness per deployment</div>
+        </div>
+
+        <div class="leaf accent-coral">
+          <span class="leaf-tag tag-coral">Flywheel</span>
+          <div class="leaf-text">Each FDE deployment builds patterns that compound over time</div>
+        </div>
+
+        <div class="leaf accent-coral">
+          <span class="leaf-tag tag-coral">Vertical bet</span>
+          <div class="leaf-text"><strong>Depth in select verticals first.</strong> Platformize that intelligence before expanding</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 LAND & EXPAND -->
+    <div class="branch">
+      <div class="branch-drop" style="height:24px"></div>
+      <a href="#fold-land" class="branch-head br-blue" style="text-decoration:none; display:block;">
+        <div class="b-number tag-blue">03</div>
+        <div class="b-title">Land &amp; Expand</div>
+      </a>
+      <div class="leaf-connector"></div>
+      <div class="leaves">
+        <div class="leaf accent-blue">
+          <span class="leaf-tag tag-blue">Land</span>
+          <div class="leaf-text"><strong>One workflow.</strong> Prove ROI in 30-60 days</div>
+        </div>
+        <div class="leaf accent-blue">
+          <span class="leaf-tag tag-blue">Expand</span>
+          <div class="leaf-text">FDE identifies <strong>adjacent systems.</strong> ACV moves from $20K → $200K+</div>
+        </div>
+        <div class="leaf accent-blue">
+          <span class="leaf-tag tag-blue">Switching cost</span>
+          <div class="leaf-text">Deeper systems coverage = <strong>higher lock-in.</strong> Retention by design</div>
+        </div>
+        <div class="leaf accent-blue">
+          <span class="leaf-tag tag-blue">Metric</span>
+          <div class="leaf-text">Track <strong># of systems per account</strong> as expansion health signal</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 PARTNERSHIP -->
+    <div class="branch">
+      <div class="branch-drop" style="height:24px"></div>
+      <a href="#fold-partner" class="branch-head br-teal" style="text-decoration:none; display:block;">
+        <div class="b-number tag-teal">04</div>
+        <div class="b-title">Partner Engine</div>
+      </a>
+      <div class="leaf-connector"></div>
+      <div class="leaves">
+        <div class="leaf accent-teal">
+          <span class="leaf-tag tag-teal">Tier 1</span>
+          <div class="leaf-text"><strong>Mid-size SIs:</strong> Hexaware, Mphasis, RPA-to-AI transition firms</div>
+        </div>
+        <div class="leaf accent-teal">
+          <span class="leaf-tag tag-teal">Scoring</span>
+          <div class="leaf-text">Enterprise access · <strong>technical capability</strong> · strategic alignment</div>
+        </div>
+        <div class="leaf accent-teal">
+          <span class="leaf-tag tag-teal">Motion</span>
+          <div class="leaf-text">Customer ref → co-deploy → case study → <strong>formalize → escalate up</strong></div>
+        </div>
+        <div class="leaf accent-teal">
+          <span class="leaf-tag tag-teal">Incentive</span>
+          <div class="leaf-text">15-20% referral + <strong>services margin</strong> on Adopt deployments</div>
+        </div>
+        <div class="leaf accent-teal">
+          <span class="leaf-tag tag-teal">Later</span>
+          <div class="leaf-text"><strong>Big 4</strong> after repeatability is proven with Tier 1</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 CATEGORY NARRATIVE -->
+    <div class="branch">
+      <div class="branch-drop" style="height:24px"></div>
+      <a href="#fold-category" class="branch-head br-purple" style="text-decoration:none; display:block;">
+        <div class="b-number tag-purple">05</div>
+        <div class="b-title">Category Narrative</div>
+      </a>
+      <div class="leaf-connector"></div>
+      <div class="leaves">
+        <div class="leaf accent-purple">
+          <span class="leaf-tag tag-purple">Villain</span>
+          <div class="leaf-text"><strong>Systems of records, intelligence, engagement</strong> siloed, not built for agents to act through</div>
+        </div>
+        <div class="leaf accent-purple">
+          <span class="leaf-tag tag-purple">Victim</span>
+          <div class="leaf-text"><strong>Executive on the hook</strong> accountable for agentic AI that keeps failing in production</div>
+        </div>
+        <div class="leaf accent-purple">
+          <span class="leaf-tag tag-purple">Vindication</span>
+          <div class="leaf-text">Adopt: <strong>the connectivity layer</strong> that makes the system of action possible</div>
+        </div>
+        <div class="leaf accent-purple">
+          <span class="leaf-tag tag-purple">Channel</span>
+          <div class="leaf-text">Adopt-led <strong>thought leadership.</strong> Frameworks, not product announcements</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 SERIES A PROOF -->
+    <div class="branch">
+      <div class="branch-drop" style="height:24px"></div>
+      <a href="#fold-seriesa" class="branch-head br-amber" style="text-decoration:none; display:block;">
+        <div class="b-number tag-amber">06</div>
+        <div class="b-title">Series A Signal</div>
+      </a>
+      <div class="leaf-connector"></div>
+      <div class="leaves">
+        <div class="leaf accent-amber">
+          <span class="leaf-tag tag-amber">Story arc</span>
+          <div class="leaf-text">Macro setup → problem framing → <strong>why Adopt is a clear winner</strong></div>
+        </div>
+        <div class="leaf accent-amber">
+          <span class="leaf-tag tag-amber">Proof 1</span>
+          <div class="leaf-text"><strong>Defined ICP</strong> with pattern-matched deal history</div>
+        </div>
+        <div class="leaf accent-amber">
+          <span class="leaf-tag tag-amber">Proof 2</span>
+          <div class="leaf-text"><strong>Pipeline predictability:</strong> conversion rates, cycle length, ACV range</div>
+        </div>
+        <div class="leaf accent-amber">
+          <span class="leaf-tag tag-amber">Proof 3</span>
+          <div class="leaf-text"><strong>Compounding motions:</strong> not reliant solely on founder</div>
+        </div>
+        <div class="leaf accent-amber">
+          <span class="leaf-tag tag-amber">Critical work</span>
+          <div class="leaf-text"><strong>Services-to-infrastructure evolution:</strong> the story that unlocks the raise</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 07 90 DAYS -->
+    <div class="branch">
+      <div class="branch-drop" style="height:24px"></div>
+      <a href="#fold-tailwinds" class="branch-head br-amber2" style="text-decoration:none; display:block;">
+        <div class="b-number tag-orange">07</div>
+        <div class="b-title">Tailwinds vs Risks</div>
+      </a>
+      <div class="leaf-connector"></div>
+      <div class="leaves">
+        <div class="leaf accent-orange">
+          <span class="leaf-tag tag-orange">Tailwind</span>
+          <div class="leaf-text">GTC mandate. Inference economics. Regulatory pressure.</div>
+        </div>
+        <div class="leaf accent-orange">
+          <span class="leaf-tag tag-orange">Risk</span>
+          <div class="leaf-text">NVIDIA moving up. Hyperscalers bundling. Models reaching down.</div>
+        </div>
+        <div class="leaf accent-orange">
+          <span class="leaf-tag tag-orange">Conviction</span>
+          <div class="leaf-text"><strong>The moat is what every deployment accumulates.</strong> The window is real.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end branches -->
+</div><!-- end tree -->
+
+<!-- FOLD 2: ICP & BUYER DEEP DIVE -->
+<div class="fold2" id="fold-icp">
+
+  <div class="fold2-header">
+    <div class="fold2-eyebrow">Deep dive · 01</div>
+    <div class="fold2-title">ICP &amp; Buyer</div>
+    <div class="fold2-sub">Who we're selling to, what signals them, and where to focus first</div>
+  </div>
+
+  <div class="fold2-grid">
+
+    <!-- BUYER PERSONA -->
+    <div class="f2-card">
+      <div class="f2-card-header f2-green">
+        <span class="f2-tag">Buyer persona hierarchy</span>
+      </div>
+      <div class="f2-card-body">
+        <div class="f2-row">
+          <div class="f2-tier">
+            <span class="f2-tier-label f2-green-text">Primary</span>
+            <div class="f2-tier-content">
+              <strong>CIO / COO / Head of Automation</strong>
+            </div>
+          </div>
+          <div class="f2-tier">
+            <span class="f2-tier-label f2-green-text">Tech / SaaS</span>
+            <div class="f2-tier-content">
+              <strong>CTO</strong>
+            </div>
+          </div>
+          <div class="f2-tier">
+            <span class="f2-tier-label f2-green-text">Champion</span>
+            <div class="f2-tier-content">
+              <strong>Head of Automation / IT Architecture</strong>
+            </div>
+          </div>
+        </div>
+        <button class="f2-question-btn f2-green-btn" onclick="toggleQ('q1')">
+          <span>&#9654;</span> Question
+        </button>
+        <div class="f2-question" id="q1">
+          In closed deals, who actually signed?
+        </div>
+      </div>
+    </div>
+
+    <!-- BUYING SIGNALS + QUALIFICATION -->
+    <div class="f2-card">
+      <div class="f2-card-header f2-coral">
+        <span class="f2-tag">Buying signals &amp; qualification</span>
+      </div>
+      <div class="f2-card-body">
+        <div class="f2-row">
+          <div class="f2-tier">
+            <span class="f2-tier-label f2-coral-text">Signal A</span>
+            <div class="f2-tier-content">
+              <strong>Hyperscaler purchase</strong>
+              <p>Azure AI Foundry · Bedrock · Vertex. Budget committed. Likely hit the wall. Problem aware.</p>
+            </div>
+          </div>
+          <div class="f2-tier">
+            <span class="f2-tier-label f2-coral-text">Signal B</span>
+            <div class="f2-tier-content">
+              <strong>Failed automation project</strong>
+              <p>RPA graveyard · abandoned iPaaS · stalled LLM pilot. Pain felt. High urgency, high scrutiny.</p>
+            </div>
+          </div>
+          <div class="f2-tier">
+            <span class="f2-tier-label f2-coral-text">Signal C</span>
+            <div class="f2-tier-content">
+              <strong>Public AI commitment, no delivery</strong>
+              <p>Board pressure. CIO/COO exposed. Urgency is external, not just internal.</p>
+            </div>
+          </div>
+          <div class="f2-tier">
+            <span class="f2-tier-label f2-coral-text">Disqualifier</span>
+            <div class="f2-tier-content">
+              <strong>No mandate, no budget owner</strong>
+              <p>Automation as a side project. No executive accountability. Deal will stall.</p>
+            </div>
+          </div>
+        </div>
+        <button class="f2-question-btn f2-coral-btn" onclick="toggleQ('q2')">
+          <span>&#9654;</span> Question
+        </button>
+        <div class="f2-question" id="q2">
+          Does this signal pattern match what you're seeing in closed deals? And are there other entry signals we should be tracking?
+        </div>
+      </div>
+    </div>
+
+    <!-- VERTICAL STRATEGY -->
+    <div class="f2-card" style="grid-column: 1 / -1;">
+      <div class="f2-card-header f2-amber">
+        <span class="f2-tag">Vertical strategy</span>
+      </div>
+      <div class="f2-card-body">
+        <div class="f2-row" style="flex-direction: row; gap: 24px;">
+          <div class="f2-tier" style="flex: 1;">
+            <span class="f2-tier-label f2-amber-text">Structural logic</span>
+            <div class="f2-tier-content">
+              <strong>Hyperscalers are horizontal by design</strong>
+              <p>They commoditize the generic layer. Vertical-specific governance, compliance patterns, legacy semantics. That depth is ours.</p>
+            </div>
+          </div>
+          <div class="f2-tier" style="flex: 1;">
+            <span class="f2-tier-label f2-amber-text">The hypothesis</span>
+            <div class="f2-tier-content">
+              <strong>1–2 verticals first. Large TAM + high governance complexity.</strong>
+              <p>BFSI and Healthcare as candidates. Regulated, legacy-heavy, high stakes for agent errors.</p>
+            </div>
+          </div>
+          <div class="f2-tier" style="flex: 1;">
+            <span class="f2-tier-label f2-amber-text">Compounding bet</span>
+            <div class="f2-tier-content">
+              <strong>Vertical depth → horizontal leverage</strong>
+              <p>Platformize the intelligence accumulated in one vertical. That becomes the repeatable motion and the moat.</p>
+            </div>
+          </div>
+        </div>
+        <button class="f2-question-btn f2-amber-btn" onclick="toggleQ('q4')">
+          <span>&#9654;</span> Question
+        </button>
+        <div class="f2-question" id="q4">
+          Does vertical-first thinking resonate, or has deal flow pushed toward staying horizontal?
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  /* FOLD 2 STYLES */
+  .fold2 {
+    margin-top: 72px;
+    padding-top: 48px;
+    border-top: 1px solid var(--border);
+  }
+  .fold2-header {
+    margin-bottom: 36px;
+  }
+  .fold2-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-green);
+    margin-bottom: 8px;
+  }
+  .fold2-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 30px;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+  .fold2-sub {
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  .fold2-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .f2-card {
+    background: var(--surface);
+    border: 1px solid var(--border-bright);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .f2-card-header {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border-bright);
+  }
+  .f2-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .f2-green  { background: var(--accent-green-dim);  border-color: var(--border-bright); }
+  .f2-coral  { background: var(--accent-coral-dim);  border-color: var(--border-bright); }
+  .f2-blue   { background: var(--accent-blue-dim);   border-color: var(--border-bright); }
+  .f2-amber  { background: var(--accent-amber-dim);  border-color: var(--border-bright); }
+
+  .f2-green  .f2-tag { color: var(--accent-green); }
+  .f2-coral  .f2-tag { color: var(--accent-coral); }
+  .f2-blue   .f2-tag { color: var(--accent-blue); }
+  .f2-amber  .f2-tag { color: var(--accent-amber); }
+
+  .f2-card-body {
+    padding: 16px;
+  }
+
+  .f2-row {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .f2-tier {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .f2-tier-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    min-width: 100px;
+    padding-top: 2px;
+    line-height: 1.4;
+    flex-shrink: 0;
+  }
+
+  .f2-green-text { color: var(--accent-green); }
+  .f2-coral-text { color: var(--accent-coral); }
+  .f2-blue-text  { color: var(--accent-blue); }
+  .f2-amber-text { color: var(--accent-amber); }
+
+  .f2-tier-content strong {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 3px;
+  }
+  .f2-tier-content p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+
+  /* QUESTION BUTTON */
+  .f2-question-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: none;
+    border: 1px solid var(--border-bright);
+    border-radius: 4px;
+    padding: 7px 12px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    margin-top: 4px;
+    width: 100%;
+    text-align: left;
+  }
+  .f2-question-btn span {
+    font-size: 8px;
+    transition: transform 0.2s;
+  }
+  .f2-question-btn.open span { transform: rotate(90deg); }
+
+  .f2-green-btn { color: var(--accent-green); }
+  .f2-green-btn:hover { background: var(--accent-green-dim); border-color: var(--accent-green); }
+  .f2-coral-btn { color: var(--accent-coral); }
+  .f2-coral-btn:hover { background: var(--accent-coral-dim); border-color: var(--accent-coral); }
+  .f2-blue-btn  { color: var(--accent-blue); }
+  .f2-blue-btn:hover  { background: var(--accent-blue-dim); border-color: var(--accent-blue); }
+  .f2-amber-btn { color: var(--accent-amber); }
+  .f2-amber-btn:hover { background: var(--accent-amber-dim); border-color: var(--accent-amber); }
+
+  /* QUESTION REVEAL */
+  .f2-question {
+    display: none;
+    margin-top: 10px;
+    padding: 12px 14px;
+    background: #0a0c0b;
+    border-radius: 4px;
+    border-left: 2px solid var(--border-bright);
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    font-style: italic;
+  }
+  .f2-question.visible { display: block; }
+</style>
+
+<script>
+  function toggleQ(id) {
+    const el = document.getElementById(id);
+    const btn = el.previousElementSibling;
+    el.classList.toggle('visible');
+    btn.classList.toggle('open');
+  }
+</script>
+
+<!-- FOLD 3: WEDGE & MOAT -->
+<div class="fold2" style="margin-top: 72px;" id="fold-wedge">
+
+  <div class="fold2-header">
+    <div class="fold2-eyebrow">Deep dive · 02</div>
+    <div class="fold2-title">Wedge &amp; Moat</div>
+    <div class="fold2-sub">How we land, how we compound, and what makes this defensible over time</div>
+  </div>
+
+  <div class="fold2-grid">
+
+    <!-- ZAPI WEDGE -->
+    <div class="f2-card">
+      <div class="f2-card-header f2-coral">
+        <span class="f2-tag">ZAPI: the wedge</span>
+      </div>
+      <div class="f2-card-body">
+        <div class="f2-row">
+          <div class="f2-tier">
+            <span class="f2-tier-label f2-coral-text">The claim</span>
+            <div class="f2-tier-content">
+              <strong>Integration from months to days</strong>
+              <p>Time-to-value compression is the land motion.</p>
+            </div>
+          </div>
+          <div class="f2-tier">
+            <span class="f2-tier-label f2-coral-text">Implication</span>
+            <div class="f2-tier-content">
+              <strong>Immediate, demonstrable ROI on first deployment</strong>
+              <p>Creates internal champions. Shortens approval cycles.</p>
+            </div>
+          </div>
+          <div class="f2-tier">
+            <span class="f2-tier-label f2-coral-text">The open edge</span>
+            <div class="f2-tier-content">
+              <strong>Reliability across truly undocumented APIs</strong>
+              <p>Demo-condition vs production-condition zero-shot discovery.</p>
+            </div>
+          </div>
+        </div>
+        <button class="f2-question-btn f2-coral-btn" onclick="toggleQ('q5')">
+          <span>&#9654;</span> Question
+        </button>
+        <div class="f2-question" id="q5">
+          ZAPI reliability vs. FDE intervention reality today? This will be critical in shaping the repeatability story for Series A.
+        </div>
+      </div>
+    </div>
+
+    <!-- GOVERNANCE MOAT -->
+    <div class="f2-card">
+      <div class="f2-card-header f2-purple" style="background: var(--accent-purple-dim);">
+        <span class="f2-tag" style="color: var(--accent-purple);">Governance layer: the moat</span>
+      </div>
+      <div class="f2-card-body">
+        <div class="f2-row">
+          <div class="f2-tier">
+            <span class="f2-tier-label" style="color: var(--accent-purple);">What accumulates</span>
+            <div class="f2-tier-content">
+              <strong>Context graphs, decision traces, state awareness</strong>
+              <p>Per deployment, per customer.</p>
+            </div>
+          </div>
+          <div class="f2-tier">
+            <span class="f2-tier-label" style="color: var(--accent-purple);">Defensibility</span>
+            <div class="f2-tier-content">
+              <strong>Competitors can't replicate without deployment history</strong>
+              <p>This is not a model advantage. It's a data and pattern advantage built through production use.</p>
+            </div>
+          </div>
+          <div class="f2-tier">
+            <span class="f2-tier-label" style="color: var(--accent-purple);">The risk</span>
+            <div class="f2-tier-content">
+              <strong>Intelligence in FDE heads ≠ intelligence in the platform</strong>
+              <p>If the moat lives in people, it doesn't compound or scale.</p>
+            </div>
+          </div>
+        </div>
+        <button class="f2-question-btn" style="color: var(--accent-purple);" onclick="toggleQ('q6')">
+          <span>&#9654;</span> Question
+        </button>
+        <div class="f2-question" id="q6">
+          How much of the accumulated intelligence lives in the product today vs in FDE knowledge? Is there a deliberate data capture strategy per deployment, or is this still something we need to architect?
+        </div>
+      </div>
+    </div>
+
+    <!-- FDE AS BRIDGE + VERTICAL AMPLIFIER - full width -->
+    <div class="f2-card" style="grid-column: 1 / -1;">
+      <div class="f2-card-header f2-blue">
+        <span class="f2-tag">FDE as bridge · Vertical as amplifier</span>
+      </div>
+      <div class="f2-card-body">
+        <div class="f2-row" style="flex-direction: row; gap: 24px;">
+          <div class="f2-tier" style="flex: 1;">
+            <span class="f2-tier-label f2-blue-text">FDE role today</span>
+            <div class="f2-tier-content">
+              <strong>Bridge between wedge and moat</strong>
+              <p>Makes ZAPI work in messy environments. Carries accumulated intelligence.</p>
+            </div>
+          </div>
+          <div class="f2-tier" style="flex: 1;">
+            <span class="f2-tier-label f2-blue-text">The transition</span>
+            <div class="f2-tier-content">
+              <strong>Intelligence moving from humans to platform</strong>
+              <p>This transition transforms the services-wrapped-software story into a scalable infrastructure story.</p>
+            </div>
+          </div>
+          <div class="f2-tier" style="flex: 1;">
+            <span class="f2-tier-label f2-blue-text">Vertical flywheel</span>
+            <div class="f2-tier-content">
+              <strong>Moat compounds faster inside a vertical</strong>
+              <p>Horizontal deployments don't share patterns. This is the argument for vertical-first.</p>
+            </div>
+          </div>
+        </div>
+        <button class="f2-question-btn f2-blue-btn" onclick="toggleQ('q7')">
+          <span>&#9654;</span> Question
+        </button>
+        <div class="f2-question" id="q7">
+          If you had to pick one vertical to go deep in over the next 12 months, where would you bet, and why?
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOLD 4: LAND & EXPAND -->
+<div class="fold2" style="margin-top: 72px;" id="fold-land">
+
+  <div class="fold2-header">
+    <div class="fold2-eyebrow">Deep dive · 03</div>
+    <div class="fold2-title">Land &amp; Expand</div>
+    <div class="fold2-sub">How we enter accounts, deepen coverage, and make removal expensive</div>
+  </div>
+
+  <div class="fold2-grid">
+
+    <!-- LAND -->
+    <div class="f2-card">
+      <div class="f2-card-header f2-blue">
+        <span class="f2-tag">Land: one workflow, fast proof</span>
+      </div>
+      <div class="f2-card-body">
+        <div class="f2-row">
+          <div class="f2-tier">
+            <span class="f2-tier-label f2-blue-text">Entry motion</span>
+            <div class="f2-tier-content">
+              <strong>Single scoped workflow. Not a platform sale.</strong>
+              <p>Prove ROI in 30-60 days. FDE makes this happen reliably.</p>
+            </div>
+          </div>
+          <div class="f2-tier">
+            <span class="f2-tier-label f2-blue-text">Goal of the land</span>
+            <div class="f2-tier-content">
+              <strong>A referenceable proof point inside the account</strong>
+              <p>Not just revenue. An internal champion with evidence. The seed for expansion.</p>
+            </div>
+          </div>
+        </div>
+        <button class="f2-question-btn f2-blue-btn" onclick="toggleQ('q8')">
+          <span>&#9654;</span> Question
+        </button>
+        <div class="f2-question" id="q8">
+          What has the typical land workflow looked like in closed deals? Is there a pattern in which workflow type lands fastest and creates the strongest internal champion?
+        </div>
+      </div>
+    </div>
+
+    <!-- EXPAND -->
+    <div class="f2-card">
+      <div class="f2-card-header f2-teal" style="background: var(--accent-teal-dim);">
+        <span class="f2-tag" style="color: var(--accent-teal);">Expand: adjacent systems, growing ACV</span>
+      </div>
+      <div class="f2-card-body">
+        <div class="f2-row">
+          <div class="f2-tier">
+            <span class="f2-tier-label" style="color: var(--accent-teal);">The motion</span>
+            <div class="f2-tier-content">
+              <strong>FDE maps the environment. Expansion is a continuation, not a new sale.</strong>
+              <p>ACV moves from $20K to $200K+ as system coverage deepens.</p>
+            </div>
+          </div>
+          <div class="f2-tier">
+            <span class="f2-tier-label" style="color: var(--accent-teal);">The metric</span>
+            <div class="f2-tier-content">
+              <strong>Systems per account</strong>
+              <p>Primary expansion health signal. More systems touched means deeper lock-in and higher lifetime value.</p>
+            </div>
+          </div>
+        </div>
+        <button class="f2-question-btn" style="color: var(--accent-teal);" onclick="toggleQ('q9')">
+          <span>&#9654;</span> Question
+        </button>
+        <div class="f2-question" id="q9">
+          Has expansion happened organically in existing accounts, or has it required a new sales motion? And who initiates it, us or the customer?
+        </div>
+      </div>
+    </div>
+
+    <!-- SWITCHING COST + COMMERCIAL ARC - full width -->
+    <div class="f2-card" style="grid-column: 1 / -1;">
+      <div class="f2-card-header f2-amber">
+        <span class="f2-tag">Switching cost · Commercial arc</span>
+      </div>
+      <div class="f2-card-body">
+        <div class="f2-row" style="flex-direction: row; gap: 24px;">
+          <div class="f2-tier" style="flex: 1;">
+            <span class="f2-tier-label f2-amber-text">Retention by architecture</span>
+            <div class="f2-tier-content">
+              <strong>Depth of coverage creates operational dependency</strong>
+              <p>Not contractual stickiness. The more workflows Adopt governs, the more disruptive removal becomes.</p>
+            </div>
+          </div>
+          <div class="f2-tier" style="flex: 1;">
+            <span class="f2-tier-label f2-amber-text">Commercial arc</span>
+            <div class="f2-tier-content">
+              <strong>Land $20-50K. Expand to $200K+.</strong>
+              <p>Lifetime value per account is multiples of ACV if expansion is systematic, not ad hoc.</p>
+            </div>
+          </div>
+          <div class="f2-tier" style="flex: 1;">
+            <span class="f2-tier-label f2-amber-text">The GTM job</span>
+            <div class="f2-tier-content">
+              <strong>Make expansion repeatable</strong>
+              <p>Not dependent on FDE initiative or founder relationships. A system, not a hustle.</p>
+            </div>
+          </div>
+        </div>
+        <button class="f2-question-btn f2-amber-btn" onclick="toggleQ('q10')">
+          <span>&#9654;</span> Question
+        </button>
+        <div class="f2-question" id="q10">
+          Is there a deliberate expansion playbook today, or is growth in existing accounts largely ad hoc?
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOLD 5: PARTNER ENGINE -->
+<div class="fold2" style="margin-top: 72px;" id="fold-partner">
+
+  <div class="fold2-header">
+    <div class="fold2-eyebrow">Deep dive · 04</div>
+    <div class="fold2-title">Partner Engine</div>
+    <div class="fold2-sub">Who we partner with, how we bring them in, and what makes them active</div>
+  </div>
+
+  <div class="fold2-grid">
+
+    <!-- TIER 1 TARGETS -->
+    <div class="f2-card">
+      <div class="f2-card-header f2-teal" style="background: var(--accent-teal-dim);">
+        <span class="f2-tag" style="color: var(--accent-teal);">Tier 1 targets: mid-size SIs</span>
+      </div>
+      <div class="f2-card-body">
+        <div class="f2-row">
+          <div class="f2-tier">
+            <span class="f2-tier-label" style="color: var(--accent-teal);">Who</span>
+            <div class="f2-tier-content">
+              <strong>Large enough. Small enough. Fast enough.</strong>
+              <p>Large enough to have enterprise relationships. Small enough to need us for differentiation. Moves fast and is agile. Examples: Hexaware, Mphasis, Persistent Systems, Birlasoft, boutique RPA-to-AI transition firms.</p>
+            </div>
+          </div>
+          <div class="f2-tier">
+            <span class="f2-tier-label" style="color: var(--accent-teal);">Axes</span>
+            <div class="f2-tier-content">
+              <strong>Enterprise access · technical capability · strategic alignment</strong>
+              <p>Tier 1 is high on all three. If they're dabbling in agentic AI rather than building a practice, deprioritize.</p>
+            </div>
+          </div>
+          <div class="f2-tier">
+            <span class="f2-tier-label" style="color: var(--accent-teal);">Later</span>
+            <div class="f2-tier-content">
+              <strong>Big 4 after Tier 1 proves the model</strong>
+              <p>Big 4 move slowly and extract heavily. Case study library from Tier 1 makes that conversation worth having.</p>
+            </div>
+          </div>
+        </div>
+        <button class="f2-question-btn" style="color: var(--accent-teal);" onclick="toggleQ('q11')">
+          <span>&#9654;</span> Question
+        </button>
+        <div class="f2-question" id="q11">
+          Has any SI relationship started organically through an existing customer or deployment?
+        </div>
+      </div>
+    </div>
+
+    <!-- ACQUISITION MOTION -->
+    <div class="f2-card">
+      <div class="f2-card-header f2-blue">
+        <span class="f2-tag">Acquisition motion</span>
+      </div>
+      <div class="f2-card-body">
+        <div class="f2-row">
+          <div class="f2-tier">
+            <span class="f2-tier-label f2-blue-text">The principle</span>
+            <div class="f2-tier-content">
+              <strong>Don't lead with a partnership pitch</strong>
+              <p>Lead through a shared customer problem. Let them see Adopt work in a live environment first.</p>
+            </div>
+          </div>
+          <div class="f2-tier">
+            <span class="f2-tier-label f2-blue-text">The funnel</span>
+            <div class="f2-tier-content">
+              <strong>Customer ref · co-deploy · case study · formalize · escalate up</strong>
+              <p>Each step earns the next. Formalization becomes easy after they have skin in the game.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INCENTIVE STRUCTURE + BIG 4 - full width -->
+    <div class="f2-card" style="grid-column: 1 / -1;">
+      <div class="f2-card-header f2-green">
+        <span class="f2-tag">Incentive structure · Enablement</span>
+      </div>
+      <div class="f2-card-body">
+        <div class="f2-row" style="flex-direction: row; gap: 24px;">
+          <div class="f2-tier" style="flex: 1;">
+            <span class="f2-tier-label f2-green-text">Revenue share</span>
+            <div class="f2-tier-content">
+              <strong>15-20% referral on closed deals</strong>
+              <p>Baseline. Not the primary motivator for most SIs.</p>
+            </div>
+          </div>
+          <div class="f2-tier" style="flex: 1;">
+            <span class="f2-tier-label f2-green-text">Real incentive</span>
+            <div class="f2-tier-content">
+              <strong>Services margin on Adopt deployments</strong>
+              <p>A $500K services engagement on top of a $200K Adopt contract is the number that changes partner behavior.</p>
+            </div>
+          </div>
+          <div class="f2-tier" style="flex: 1;">
+            <span class="f2-tier-label f2-green-text">Enablement stack</span>
+            <div class="f2-tier-content">
+              <strong>Certification · playbooks · sandbox · partner success</strong>
+              <p>Makes partners self-sufficient. FDEs train partner technical teams. Active partners, not nominal ones.</p>
+            </div>
+          </div>
+        </div>
+        <button class="f2-question-btn f2-green-btn" onclick="toggleQ('q13')">
+          <span>&#9654;</span> Question
+        </button>
+        <div class="f2-question" id="q13">
+          How does intelligence from partner deployments flow back to the platform? A solid data capture strategy is going to be critical.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOLD 6: CATEGORY NARRATIVE -->
+<div class="fold2" style="margin-top: 72px;" id="fold-category">
+
+  <div class="fold2-header" style="text-align: center;">
+    <div class="fold2-eyebrow" style="text-align: center;">Deep dive · 05</div>
+    <div class="fold2-title" style="text-align: center;">Category Narrative</div>
+  </div>
+
+  <!-- CAROUSEL WRAPPER -->
+  <div class="cat-carousel">
+
+    <!-- PANEL 1: VERTICAL STACK -->
+    <div class="cat-panel active" id="cat-panel-1">
+
+      <div class="cat-stack">
+
+        <div class="cat-promised">
+          <div class="cat-layer-label" style="text-align:center;">Promised land</div>
+          <div class="cat-layer-title" style="text-align:center;">System of Action</div>
+          <div class="cat-layer-sub" style="text-align:center;">Reliable agentic execution at enterprise scale</div>
+        </div>
+
+        <div class="cat-arrow-up">&#8593;</div>
+
+        <div class="cat-adopt">
+          <div class="cat-layer-label" style="text-align:center;">Vindication</div>
+          <div class="cat-layer-title" style="text-align:center;">Adopt.ai</div>
+          <div class="cat-layer-sub" style="text-align:center;">Secure, governed, multi-agent infrastructure. The bridge that makes the ascent possible with context graphs, decision traces, and state awareness.</div>
+          <div class="cat-models-inner">
+            <div class="cat-models-rule"></div>
+            <div class="cat-models-label" style="text-align:center;">Plugs into any framework</div>
+            <div class="cat-model-bubbles" style="justify-content:center;">
+              <span class="cat-bubble">LangChain</span>
+              <span class="cat-bubble">CrewAI</span>
+              <span class="cat-bubble">ADK</span>
+              <span class="cat-bubble">...</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cat-arrow-up">&#8593;</div>
+
+        <div class="cat-victim-band" style="flex-direction:column; text-align:center; align-items:center;">
+          <div class="cat-victim-left" style="align-items:center; min-width:unset;">
+            <span class="cat-victim-label">Victim</span>
+            <span class="cat-victim-title">The executive on the hook</span>
+          </div>
+          <div class="cat-victim-right" style="border-left:none; padding-left:0; border-top:1px solid var(--border-bright); padding-top:12px; margin-top:8px;">
+            Owns what's below. Accountable for what's above. Budget already burned. Agents keep failing in production.
+          </div>
+        </div>
+
+        <div class="cat-arrow-up">&#8593;</div>
+
+        <div class="cat-villain">
+          <div class="cat-layer-label" style="text-align:center;">Villain</div>
+          <div class="cat-layer-title" style="text-align:center; font-size:18px; margin-bottom:12px; color:var(--accent-coral);">Heterogeneous Systems</div>
+          <div class="cat-villain-grid">
+            <div class="cat-sub-system" style="text-align: center;">
+              <div class="cat-sub-title">System of Records</div>
+              <div class="cat-sub-body">ERPs, CRMs, databases. The ground truth of the enterprise.</div>
+            </div>
+            <div class="cat-villain-divider"></div>
+            <div class="cat-sub-system" style="text-align: center;">
+              <div class="cat-sub-title">System of Intelligence</div>
+              <div class="cat-sub-body">Analytics, ML, LLM tools. Reasoning over that truth.</div>
+            </div>
+            <div class="cat-villain-divider"></div>
+            <div class="cat-sub-system" style="text-align: center;">
+              <div class="cat-sub-title">System of Engagement</div>
+              <div class="cat-sub-body">Portals, email, chat, customer-facing tools. How humans interact with the enterprise.</div>
+            </div>
+          </div>
+          <div class="cat-villain-caption">Mature. Siloed. Not built for agents to act through.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PANEL 2: SPIDER WEB -->
+    <div class="cat-panel" id="cat-panel-2">
+      <div class="cat-web-wrap">
+        <div class="cat-web-caption-top">Every thread a guardrail. Every node a decision surface.</div>
+                        <svg viewBox="0 0 540 480" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <line x1="270" y1="240" x2="270.0" y2="40.0" stroke="#4ade80" stroke-width="0.7" opacity="0.55"/>
+          <line x1="270" y1="240" x2="411.4" y2="98.6" stroke="#4ade80" stroke-width="0.7" opacity="0.55"/>
+          <line x1="270" y1="240" x2="470.0" y2="240.0" stroke="#4ade80" stroke-width="0.7" opacity="0.55"/>
+          <line x1="270" y1="240" x2="411.4" y2="381.4" stroke="#4ade80" stroke-width="0.7" opacity="0.55"/>
+          <line x1="270" y1="240" x2="270.0" y2="440.0" stroke="#4ade80" stroke-width="0.7" opacity="0.55"/>
+          <line x1="270" y1="240" x2="128.6" y2="381.4" stroke="#4ade80" stroke-width="0.7" opacity="0.55"/>
+          <line x1="270" y1="240" x2="70.0" y2="240.0" stroke="#4ade80" stroke-width="0.7" opacity="0.55"/>
+          <line x1="270" y1="240" x2="128.6" y2="98.6" stroke="#4ade80" stroke-width="0.7" opacity="0.55"/>
+          <line x1="270" y1="240" x2="376.2" y2="196.0" stroke="#4ade80" stroke-width="0.4" opacity="0.3"/>
+          <line x1="270" y1="240" x2="314.0" y2="346.2" stroke="#4ade80" stroke-width="0.4" opacity="0.3"/>
+          <line x1="270" y1="240" x2="163.8" y2="284.0" stroke="#4ade80" stroke-width="0.4" opacity="0.3"/>
+          <line x1="270" y1="240" x2="226.0" y2="133.8" stroke="#4ade80" stroke-width="0.4" opacity="0.3"/>
+          <polygon points="270.0,195.0 301.8,208.2 315.0,240.0 301.8,271.8 270.0,285.0 238.2,271.8 225.0,240.0 238.2,208.2" fill="none" stroke="#4ade80" stroke-width="1.0" opacity="0.7"/>
+          <polygon points="270.0,162.0 325.2,184.8 348.0,240.0 325.2,295.2 270.0,318.0 214.8,295.2 192.0,240.0 214.8,184.8" fill="none" stroke="#4ade80" stroke-width="0.8" opacity="0.55"/>
+          <polygon points="270.0,125.0 351.3,158.7 385.0,240.0 351.3,321.3 270.0,355.0 188.7,321.3 155.0,240.0 188.7,158.7" fill="none" stroke="#4ade80" stroke-width="0.6" opacity="0.4"/>
+          <polygon points="270.0,88.0 377.5,132.5 422.0,240.0 377.5,347.5 270.0,392.0 162.5,347.5 118.0,240.0 162.5,132.5" fill="none" stroke="#4ade80" stroke-width="0.5" opacity="0.28"/>
+          <polygon points="270.0,40.0 411.4,98.6 470.0,240.0 411.4,381.4 270.0,440.0 128.6,381.4 70.0,240.0 128.6,98.6" fill="none" stroke="#4ade80" stroke-width="0.4" opacity="0.15"/>
+          <circle cx="270.0" cy="195.0" r="3.5" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="1.0"/>
+          <circle cx="301.8" cy="208.2" r="3.5" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="1.0"/>
+          <circle cx="315.0" cy="240.0" r="3.5" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="1.0"/>
+          <circle cx="301.8" cy="271.8" r="3.5" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="1.0"/>
+          <circle cx="270.0" cy="285.0" r="3.5" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="1.0"/>
+          <circle cx="238.2" cy="271.8" r="3.5" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="1.0"/>
+          <circle cx="225.0" cy="240.0" r="3.5" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="1.0"/>
+          <circle cx="238.2" cy="208.2" r="3.5" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="1.0"/>
+          <circle cx="270.0" cy="162.0" r="3" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.85"/>
+          <circle cx="325.2" cy="184.8" r="3" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.85"/>
+          <circle cx="348.0" cy="240.0" r="3" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.85"/>
+          <circle cx="325.2" cy="295.2" r="3" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.85"/>
+          <circle cx="270.0" cy="318.0" r="3" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.85"/>
+          <circle cx="214.8" cy="295.2" r="3" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.85"/>
+          <circle cx="192.0" cy="240.0" r="3" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.85"/>
+          <circle cx="214.8" cy="184.8" r="3" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.85"/>
+          <circle cx="270.0" cy="125.0" r="2.5" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.7"/>
+          <circle cx="351.3" cy="158.7" r="2.5" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.7"/>
+          <circle cx="385.0" cy="240.0" r="2.5" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.7"/>
+          <circle cx="351.3" cy="321.3" r="2.5" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.7"/>
+          <circle cx="270.0" cy="355.0" r="2.5" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.7"/>
+          <circle cx="188.7" cy="321.3" r="2.5" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.7"/>
+          <circle cx="155.0" cy="240.0" r="2.5" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.7"/>
+          <circle cx="188.7" cy="158.7" r="2.5" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.7"/>
+          <circle cx="270.0" cy="88.0" r="2" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.5"/>
+          <circle cx="377.5" cy="132.5" r="2" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.5"/>
+          <circle cx="422.0" cy="240.0" r="2" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.5"/>
+          <circle cx="377.5" cy="347.5" r="2" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.5"/>
+          <circle cx="270.0" cy="392.0" r="2" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.5"/>
+          <circle cx="162.5" cy="347.5" r="2" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.5"/>
+          <circle cx="118.0" cy="240.0" r="2" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.5"/>
+          <circle cx="162.5" cy="132.5" r="2" fill="#0a1f12" stroke="#4ade80" stroke-width="0.8" opacity="0.5"/>
+          <circle cx="376" cy="196" r="26" fill="#0f2340" stroke="#60a5fa" stroke-width="0.8"/>
+          <text x="376" y="196" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="8" fill="#60a5fa" font-weight="500">LangChain</text>
+          <circle cx="314" cy="346" r="26" fill="#0f2340" stroke="#60a5fa" stroke-width="0.8"/>
+          <text x="314" y="346" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="9" fill="#60a5fa" font-weight="500">CrewAI</text>
+          <circle cx="164" cy="284" r="26" fill="#0f2340" stroke="#60a5fa" stroke-width="0.8"/>
+          <text x="164" y="284" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="9" fill="#60a5fa" font-weight="500">ADK</text>
+          <circle cx="226" cy="134" r="26" fill="#0f2340" stroke="#60a5fa" stroke-width="0.8"/>
+          <text x="226" y="134" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="8" fill="#60a5fa" font-weight="500">Any framework</text>
+          <circle cx="270" cy="40" r="28" fill="#200a14" stroke="#fb7185" stroke-width="0.8"/>
+          <text x="270" y="35" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="10" fill="#fb7185" font-weight="500">ERP</text>
+          <text x="270" y="48" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="8" fill="#993C1D">SAP</text>
+          <circle cx="411" cy="99" r="28" fill="#200a14" stroke="#fb7185" stroke-width="0.8"/>
+          <text x="411" y="94" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="10" fill="#fb7185" font-weight="500">CRM</text>
+          <text x="411" y="107" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="8" fill="#993C1D">Salesforce</text>
+          <circle cx="470" cy="240" r="28" fill="#200a14" stroke="#fb7185" stroke-width="0.8"/>
+          <text x="470" y="235" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="10" fill="#fb7185" font-weight="500">Data</text>
+          <text x="470" y="248" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="8" fill="#993C1D">Warehouse</text>
+          <circle cx="411" cy="381" r="28" fill="#200a14" stroke="#fb7185" stroke-width="0.8"/>
+          <text x="411" y="376" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="10" fill="#fb7185" font-weight="500">Legacy</text>
+          <text x="411" y="389" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="8" fill="#993C1D">APIs</text>
+          <circle cx="270" cy="440" r="28" fill="#200a14" stroke="#fb7185" stroke-width="0.8"/>
+          <text x="270" y="435" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="10" fill="#fb7185" font-weight="500">ITSM</text>
+          <text x="270" y="448" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="8" fill="#993C1D">ServiceNow</text>
+          <circle cx="129" cy="381" r="28" fill="#200a14" stroke="#fb7185" stroke-width="0.8"/>
+          <text x="129" y="376" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="10" fill="#fb7185" font-weight="500">Comms</text>
+          <text x="129" y="389" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="8" fill="#993C1D">Slack</text>
+          <circle cx="70" cy="240" r="28" fill="#200a14" stroke="#fb7185" stroke-width="0.8"/>
+          <text x="70" y="235" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="10" fill="#fb7185" font-weight="500">Finance</text>
+          <text x="70" y="248" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="8" fill="#993C1D">Workday</text>
+          <circle cx="129" cy="99" r="28" fill="#200a14" stroke="#fb7185" stroke-width="0.8"/>
+          <text x="129" y="94" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="10" fill="#fb7185" font-weight="500">Internal</text>
+          <text x="129" y="107" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="8" fill="#993C1D">DBs</text>
+          <circle cx="270" cy="240" r="42" fill="#0a1f12" stroke="#4ade80" stroke-width="1.5"/>
+          <text x="270" y="233" text-anchor="middle" dominant-baseline="central" font-family="Georgia, serif" font-size="15" fill="#4ade80" font-style="italic" font-weight="500">Adopt.ai</text>
+          <text x="270" y="252" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="7" fill="#1D9E75" letter-spacing="0.08em">the spider</text>
+        </svg>
+      </div>
+    </div>
+    <!-- CAROUSEL CONTROLS -->
+    <div class="cat-carousel-controls">
+      <button class="cat-carousel-btn" onclick="catSlide(-1)">&#8592;</button>
+      <div class="cat-carousel-dots">
+        <span class="cat-dot active" id="cat-dot-0"></span>
+        <span class="cat-dot" id="cat-dot-1"></span>
+      </div>
+      <button class="cat-carousel-btn" onclick="catSlide(1)">&#8594;</button>
+    </div>
+
+  </div>
+
+  <!-- OPEN BOLD CLAIM -->
+  <div class="cat-claim-block">
+    <div class="cat-claim-eyebrow">The open question</div>
+    <div class="cat-claim-text">What is our bold claim?</div>
+  </div>
+
+  <!-- PUNCH LINE -->
+  <div style="text-align: center; margin-bottom: 56px;">
+    <p class="cat-manifesto-punch-box">Frameworks &nbsp;·&nbsp; Arguments &nbsp;·&nbsp; Provocations &nbsp;·&nbsp; Proofs &nbsp;&nbsp;&#62;&nbsp;&nbsp; Product announcements</p>
+  </div>
+
+</div>
+
+<style>
+  .cat-carousel {
+    position: relative;
+    margin-bottom: 56px;
+  }
+  .cat-panel {
+    display: none;
+  }
+  .cat-panel.active {
+    display: block;
+  }
+  .cat-carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .cat-carousel-btn {
+    background: none;
+    border: 1px solid var(--border-bright);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    font-size: 16px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .cat-carousel-btn:hover {
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+  }
+  .cat-carousel-dots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .cat-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--border-bright);
+    transition: background 0.2s;
+  }
+  .cat-dot.active {
+    background: var(--accent-green);
+  }
+  .cat-web-wrap {
+    background: #0a0c0b;
+    border: 1px solid var(--border-bright);
+    border-radius: 8px;
+    padding: 24px;
+  }
+  .cat-web-caption-top {
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--accent-green);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+  .cat-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .cat-arrow-up {
+    text-align: center;
+    font-size: 20px;
+    color: var(--text-muted);
+    padding: 6px 0;
+    line-height: 1;
+  }
+  .cat-layer-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .cat-layer-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .cat-layer-sub {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .cat-promised {
+    border-radius: 8px;
+    border: 1px solid var(--accent-green);
+    padding: 20px 24px;
+    background: #0a1f12;
+  }
+  .cat-promised .cat-layer-label { color: var(--accent-green); }
+  .cat-promised .cat-layer-title { color: var(--accent-green); }
+  .cat-adopt {
+    border-radius: 8px;
+    border: 1.5px solid var(--accent-green);
+    padding: 20px 24px;
+    background: var(--accent-green-dim);
+  }
+  .cat-adopt .cat-layer-label { color: var(--accent-green); }
+  .cat-adopt .cat-layer-title { font-size: 32px; color: var(--accent-green); }
+  .cat-models-inner { margin-top: 16px; }
+  .cat-models-rule { height: 1px; background: var(--border-bright); margin-bottom: 10px; }
+  .cat-models-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .cat-model-bubbles { display: flex; flex-wrap: wrap; gap: 8px; }
+  .cat-bubble {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-bright);
+    border-radius: 20px;
+    padding: 4px 14px;
+    background: var(--accent-green-dim);
+  }
+  .cat-victim-band {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background: var(--accent-amber-dim);
+    border: 1px solid var(--accent-amber);
+    border-radius: 8px;
+    padding: 14px 24px;
+  }
+  .cat-victim-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex-shrink: 0;
+    min-width: 180px;
+  }
+  .cat-victim-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-amber);
+  }
+  .cat-victim-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px;
+    color: var(--accent-amber);
+    line-height: 1.2;
+  }
+  .cat-victim-right {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    border-left: 1px solid var(--border-bright);
+    padding-left: 24px;
+  }
+  .cat-villain {
+    border-radius: 8px;
+    border: 1px solid var(--accent-coral);
+    padding: 20px 24px;
+    background: var(--accent-coral-dim);
+  }
+  .cat-villain .cat-layer-label { color: var(--accent-coral); }
+  .cat-villain-grid { display: flex; gap: 0; margin: 10px 0; }
+  .cat-villain-divider { width: 1px; background: var(--border-bright); margin: 0 16px; flex-shrink: 0; }
+  .cat-sub-system { flex: 1; }
+  .cat-sub-title { font-size: 13px; font-weight: 500; color: var(--text-primary); margin-bottom: 4px; }
+  .cat-sub-body { font-size: 11px; color: var(--text-secondary); line-height: 1.5; }
+  .cat-villain-caption {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--accent-coral);
+    margin-top: 12px;
+    text-align: center;
+  }
+  .cat-claim-block {
+    border-top: 1px solid var(--border-bright);
+    border-bottom: 1px solid var(--border-bright);
+    padding: 48px 32px;
+    margin-bottom: 48px;
+    text-align: center;
+  }
+  .cat-claim-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+  .cat-claim-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 42px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+  .cat-manifesto-punch-box {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-green);
+    letter-spacing: 0.04em;
+    border: 1px solid var(--accent-green);
+    border-radius: 4px;
+    padding: 10px 20px;
+    margin-top: 8px;
+    background: var(--accent-green-dim);
+  }
+</style>
+
+<script>
+  var catCurrent = 0;
+  var catPanels = ['cat-panel-1', 'cat-panel-2'];
+  function catSlide(dir) {
+    document.getElementById(catPanels[catCurrent]).classList.remove('active');
+    document.getElementById('cat-dot-' + catCurrent).classList.remove('active');
+    catCurrent = (catCurrent + dir + catPanels.length) % catPanels.length;
+    document.getElementById(catPanels[catCurrent]).classList.add('active');
+    document.getElementById('cat-dot-' + catCurrent).classList.add('active');
+  }
+</script>
+
+
+<!-- FOLD 7: SERIES A SIGNAL -->
+<div class="fold2" style="margin-top: 72px;" id="fold-seriesa">
+
+  <div class="fold2-header">
+    <div class="fold2-eyebrow">Deep dive · 06</div>
+    <div class="fold2-title">Series A Signal</div>
+    <div class="fold2-sub">What the raise requires. What we're building toward.</div>
+  </div>
+
+  <!-- MACRO CLAIM -->
+  <div class="sa-macro">
+    <div class="sa-macro-label">The macro claim</div>
+    <div class="sa-macro-text">Adopt is building the infrastructure layer that every enterprise will need before they can scale agentic AI. Not an automation tool. The operating system for enterprise agents.</div>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="sa-checklist-wrap">
+    <div class="sa-checklist-label">Series A readiness</div>
+    <div class="sa-checklist">
+
+      <div class="sa-item">
+        <div class="sa-checkbox"></div>
+        <div class="sa-item-content">
+          <strong>Bold category claim defined</strong>
+          <span>The language we want the market to use. Owned, not borrowed.</span>
+        </div>
+      </div>
+
+      <div class="sa-item">
+        <div class="sa-checkbox"></div>
+        <div class="sa-item-content">
+          <strong>ICP locked with horizontal expansion vision</strong>
+          <span>Not "enterprises broadly." A pattern, and a thesis for how it widens.</span>
+        </div>
+      </div>
+
+      <div class="sa-item">
+        <div class="sa-checkbox"></div>
+        <div class="sa-item-content">
+          <strong>Evidence of repeatability</strong>
+          <span>Deal patterns documented.</span>
+        </div>
+      </div>
+
+      <div class="sa-item">
+        <div class="sa-checkbox"></div>
+        <div class="sa-item-content">
+          <strong>ACV expansion demonstrated</strong>
+          <span>At least one account showing the land-to-expand arc in practice.</span>
+        </div>
+      </div>
+
+      <div class="sa-item">
+        <div class="sa-checkbox"></div>
+        <div class="sa-item-content">
+          <strong>Services-to-infrastructure transition articulated</strong>
+          <span>When does the governance layer become configurable, partner-deliverable, self-reinforcing?</span>
+        </div>
+      </div>
+
+      <div class="sa-item">
+        <div class="sa-checkbox"></div>
+        <div class="sa-item-content">
+          <strong>Revenue growth decoupled from linear headcount</strong>
+          <span>Governance layer configurable. Partner-channel viable. Intelligence flowing back to platform.</span>
+        </div>
+      </div>
+
+      <div class="sa-item">
+        <div class="sa-checkbox"></div>
+        <div class="sa-item-content">
+          <strong>Solid GTM convictions in place</strong>
+          <span>Not improvised motion. A system that compounds.</span>
+        </div>
+      </div>
+
+      <div class="sa-item">
+        <div class="sa-checkbox"></div>
+        <div class="sa-item-content">
+          <strong>GTM architect in place</strong>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SCRAMBLED BLOCKS -->
+  <div class="sa-todo-wrap">
+    <div class="sa-todo-label">Areas where I've not gone deeper</div>
+    <div class="sa-todo-blocks">
+      <span class="sa-block">Pricing architecture</span>
+      <span class="sa-block">Competitive landscape</span>
+      <span class="sa-block">TAM sizing</span>
+      <span class="sa-block">Analyst relations</span>
+      <span class="sa-block">Demand generation engine</span>
+      <span class="sa-block">Customer success motion</span>
+      <span class="sa-block">Product roadmap alignment</span>
+      <span class="sa-block">Hiring sequence</span>
+      <span class="sa-block">Partner certification program</span>
+      <span class="sa-block">Category naming</span>
+      <span class="sa-block">Sales playbook</span>
+      <span class="sa-block">Expansion trigger definition</span>
+      <span class="sa-block">Win / loss analysis</span>
+      <span class="sa-block">Vertical-specific messaging</span>
+      <span class="sa-block">Event and conference strategy</span>
+      <span class="sa-block">Thought leadership calendar</span>
+      <span class="sa-block">Retention metrics</span>
+      <span class="sa-block">Health scoring</span>
+      <span class="sa-block">Developer community play</span>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  /* MACRO CLAIM */
+  .sa-macro {
+    background: var(--accent-amber-dim);
+    border: 1px solid var(--accent-amber);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-bottom: 40px;
+  }
+  .sa-macro-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-amber);
+    margin-bottom: 12px;
+  }
+  .sa-macro-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+
+  /* CHECKLIST */
+  .sa-checklist-wrap {
+    margin-bottom: 48px;
+  }
+  .sa-checklist-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+  .sa-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border: 1px solid var(--border-bright);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .sa-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border-bright);
+    background: var(--surface);
+    transition: background 0.15s;
+  }
+  .sa-item:last-child { border-bottom: none; }
+  .sa-item:hover { background: #1a1e1b; }
+  .sa-item-highlight {
+    background: var(--accent-green-dim);
+  }
+  .sa-item-highlight:hover { background: #1f3d2a; }
+  .sa-checkbox {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--border-bright);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .sa-checkbox-green {
+    border-color: var(--accent-green);
+    background: var(--accent-green-dim);
+    position: relative;
+  }
+  .sa-checkbox-green::after {
+    content: '✓';
+    position: absolute;
+    top: -1px;
+    left: 2px;
+    font-size: 11px;
+    color: var(--accent-green);
+  }
+  .sa-item-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .sa-item-content strong {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+  .sa-item-content span {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .sa-item-highlight .sa-item-content strong {
+    color: var(--accent-green);
+  }
+
+  /* SCRAMBLED BLOCKS */
+  .sa-todo-wrap {
+    margin-bottom: 16px;
+  }
+  .sa-todo-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+  .sa-todo-blocks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .sa-block {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-bright);
+    border-radius: 4px;
+    padding: 6px 12px;
+    background: var(--surface);
+    letter-spacing: 0.02em;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .sa-block:hover {
+    border-color: var(--text-muted);
+    color: var(--text-primary);
+  }
+</style>
+
+<!-- FOLD 8: TAILWINDS VS PIVOT RISKS -->
+<div class="fold2" style="margin-top: 72px;" id="fold-tailwinds">
+
+  <div class="fold2-header">
+    <div class="fold2-eyebrow">Deep dive · 07</div>
+    <div class="fold2-title">Tailwinds vs. Pivot Risks</div>
+    <div class="fold2-sub">Forces shaping the opportunity window.</div>
+  </div>
+
+  <div class="fold2-grid">
+
+    <!-- TAILWINDS -->
+    <div class="f2-card">
+      <div class="f2-card-header" style="background: var(--accent-green-dim);">
+        <span class="f2-tag" style="color: var(--accent-green);">Tailwinds</span>
+      </div>
+      <div class="f2-card-body">
+        <div class="f2-row">
+          <div class="f2-tier">
+            <span class="f2-tier-label" style="color: var(--accent-green);">01</span>
+            <div class="f2-tier-content">
+              <p>Jensen's GTC keynote created a mandate. Every enterprise now needs an agentic strategy. Most will hit the wall.</p>
+            </div>
+          </div>
+          <div class="f2-tier">
+            <span class="f2-tier-label" style="color: var(--accent-green);">02</span>
+            <div class="f2-tier-content">
+              <p>Inference economics are accelerating agent deployment at scale, expanding the TAM for every layer of the stack.</p>
+            </div>
+          </div>
+          <div class="f2-tier">
+            <span class="f2-tier-label" style="color: var(--accent-green);">03</span>
+            <div class="f2-tier-content">
+              <p>Regulatory pressure is making governed, auditable agent infrastructure non-negotiable.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PIVOT RISKS -->
+    <div class="f2-card">
+      <div class="f2-card-header" style="background: var(--accent-coral-dim);">
+        <span class="f2-tag" style="color: var(--accent-coral);">Pivot risks</span>
+      </div>
+      <div class="f2-card-body">
+        <div class="f2-row">
+          <div class="f2-tier">
+            <span class="f2-tier-label" style="color: var(--accent-coral);">01</span>
+            <div class="f2-tier-content">
+              <p>NVIDIA is moving up the stack. Library by library, domain by domain.</p>
+            </div>
+          </div>
+          <div class="f2-tier">
+            <span class="f2-tier-label" style="color: var(--accent-coral);">02</span>
+            <div class="f2-tier-content">
+              <p>Hyperscalers are bundling orchestration natively into their platforms.</p>
+            </div>
+          </div>
+          <div class="f2-tier">
+            <span class="f2-tier-label" style="color: var(--accent-coral);">03</span>
+            <div class="f2-tier-content">
+              <p>Model providers are reaching toward enterprise workflows directly. Mistral Forge is the clearest signal.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONVICTION: full width -->
+    <div class="f2-card" style="grid-column: 1 / -1; background: #0a0c0b; border-color: var(--border-bright);">
+      <div class="f2-card-body" style="padding: 24px 32px;">
+        <p style="font-family: 'DM Serif Display', serif; font-style: italic; font-size: 18px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px;">The opportunity window is real. What is our moat? How fast are we building the data flywheel.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOLD 9: CLOSING -->
+<div class="fold2" style="margin-top: 72px;" id="fold-90days">
+
+  <div class="letter-block">
+    <p class="letter-text">&ldquo;I&rsquo;ve captured my thinking here. Let&rsquo;s discuss if this kind of thinking is useful to you.</p>
+    <p class="letter-text">Execution is the exciting yet messy part. The culture you&rsquo;re building at Adopt.ai is going to be a key differentiator for execution. Would love to hear your thoughts on that as well.&rdquo;</p>
+    <p class="letter-signature">— Arjun Balasubramanian</p>
+  </div>
+
+</div>
+
+<style>
+  .letter-block {
+    max-width: 560px;
+    margin: 48px auto 0;
+    text-align: center;
+  }
+  .letter-text {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 20px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+  .letter-signature {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    margin-top: 32px;
+  }
+</style>
+
+<div class="footer">
+  <div class="footer-tag">
+    <div class="dot"></div>
+    <p>LIVE THINKING — NOT A DECK</p>
+  </div>
+</div>
+
+</body>
+</html>
